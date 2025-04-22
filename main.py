@@ -1,5 +1,6 @@
 import streamlit as st
-
+import markdown as mk
+import strip_markdown as smk
 
 
 
@@ -17,7 +18,9 @@ ai_text = st.text_area("enter question")
 if st.button("run"):
     try:
         response =  client.models.generate_content(model="gemini-2.0-flash",contents=ai_text)
-        st.success(response.text,icon="✅")
+        text = smk.strip_markdown(response.text)
+        st.success(text)
     except(Exception) as e:
         st.error(f"propmt failed due to {e}")
     
+
